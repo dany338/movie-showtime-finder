@@ -8,18 +8,15 @@ import {
 } from './actions';
 import * as ReviewsServices from "../../services";
 
-export const reviewsRequest = (values, from, to) => {
+export const reviewsRequest = (token, uid) => {
   return async dispatch => {
     dispatch(reviewsListInit());
     try {
-      const data = await ReviewsServices.apiReviews.search(values, from, to);
+      const data = await ReviewsServices.apiReviews.search(token, uid);
       if(typeof data === 'object' && Array.isArray(data.data)) {
-        const countValues = Object.keys(values).length;
-        const total = ((data.metadata && countValues === 0) && data.metadata.total) || data.data.length;
-        const pageCount = Math.round(total / to) || Math.ceil(total / to);
-        dispatch(reviewsListSuccess(data.data, pageCount));
+        dispatch(reviewsListSuccess(data.data));
       } else if(typeof data === 'string') {
-        dispatch(reviewsListError(data.toString()));
+        dispatch(reviewsListError('An error was generated please consult the administrator!'));
       }
     } catch (error) {
       console.error(error);
@@ -28,11 +25,11 @@ export const reviewsRequest = (values, from, to) => {
   };
 };
 
-export const reviewCreateRequest = (form, token) => {
+export const reviewCreateRequest = (token, form) => {
   return async dispatch => {
     dispatch(reviewCreateInit());
     try {
-      const data = await ReviewsServices.apiReviews.create(form, token);
+      const data = await ReviewsServices.apiReviews.create(token, form);
       if(typeof data === 'object' && typeof data.data === 'object') {
         dispatch(reviewCreateSuccess(data.data));
         return { msg: data.message, err: false };

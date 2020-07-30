@@ -5,5 +5,5 @@ import {
 } from './types';
 
 export const notificationsListInit = () => ({ type: NOTIFICATIONS_LIST_INIT });
-export const notificationsListSuccess = data => ({ type: NOTIFICATIONS_LIST_SUCCESS, payload: { data } });
+export const notificationsListSuccess = (data, totalResults) => ({ type: NOTIFICATIONS_LIST_SUCCESS, payload: { data, totalResults } });
 export const notificationsListError = error => ({ type: NOTIFICATIONS_LIST_ERROR, payload: error });

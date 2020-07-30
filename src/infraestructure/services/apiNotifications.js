@@ -24,7 +24,7 @@ const fetchParams = (method, data = '') => {
 export const apiNotifications = {
   search: async (token, uid) => {
     try {
-      const response = await fetch(`${API_HOST_BACKEND}${endpoints.torre.search}?access-token=${token}&uid=${uid}`, fetchParams('GET'));
+      const response = await fetch(`${API_HOST_BACKEND}${endpoints.notification.search}?access-token=${token}&uid=${uid}`, fetchParams('GET'));
       if (!response.ok || response.status === 404 || response.status === 403 || response.status === 409 || response.status === 500 ) {
         return response.statusText;
       }

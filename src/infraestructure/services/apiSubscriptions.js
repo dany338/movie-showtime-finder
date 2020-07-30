@@ -22,6 +22,18 @@ const fetchParams = (method, data = '') => {
 };
 
 export const apiSubscriptions = {
+  search: async (token, uid) => {
+    try {
+      const response = await fetch(`${API_HOST_BACKEND}${endpoints.subscription.search}?access-token=${token}&uid=${uid}`, fetchParams('GET'));
+      if (!response.ok || response.status === 404 || response.status === 403 || response.status === 409 || response.status === 500 ) {
+        return response.statusText;
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return error;
+    }
+  },
   create: async (token, form) => {
     try {
       const response = await fetch(`${API_HOST_BACKEND}${endpoints.subscription.create}?access-token=${token}`, fetchParams('POST', { ...form }));

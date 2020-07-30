@@ -51,7 +51,7 @@ const review = (state = initialState, { type, payload }) => {
     case REVIEWS_CREATE_SUCCESS: {
       return {
         ...state,
-        data: [ ...state.data, payload.data ],
+        data: [ payload.data, ...state.data ],
         isLoading: false,
         error: ''
       };

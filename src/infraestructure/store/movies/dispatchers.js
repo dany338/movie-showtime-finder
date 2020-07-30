@@ -26,7 +26,7 @@ export const getMoviesNewsRequest = (page) => {
     try {
       const data = await MoviesServices.apiMovies.getNewsMovies(page);
       if(typeof data === 'object' && Array.isArray(data.results)) {
-        dispatch(moviesNewsListSuccess(data.results, data.total_pages, data.total_results));
+        dispatch(moviesNewsListSuccess(data.results, data.total_pages, data.total_results, page));
       } else if(typeof data === 'string') {
         dispatch(moviesListError('An error was generated please consult the administrator!'));
       }

@@ -1,41 +1,31 @@
 /* eslint-disable import/no-cycle */
-import reviewsReducer from "./review";
-import notificationsReducer from "./notifications";
-import subscriptionsReducer from "./subscriptions";
-import moviesReducer from "./movies";
-import loginReducer from "./login";
+import React, { createContext, useReducer, useContext, useCallback } from 'react';
+import PropTypes from 'prop-types';
+// import { useImmerReducer } from "use-immer";
+import { asyncer } from './middlewares';
+import mainReducer, { initialState } from './reducers';
 
-import { logger } from "./middlewares";
+const GlobalStore = createContext({});
 
-export const initialState = {
-  review: reviewsReducer.initialState,
-  notification: notificationsReducer.initialState,
-  subscription: subscriptionsReducer.initialState,
-  movie: moviesReducer.initialState,
-  login: loginReducer.initialState,
+const useGlobalStore = () => useContext(GlobalStore);
+
+const Provider = ({ children }) => {
+	const [ state, dispatchBase ] = useReducer(mainReducer, initialState); // useImmerReducer(mainReducer, initialState); // useReducer(mainReducer, initialState);
+	const dispatch = useCallback(asyncer(dispatchBase, state), []);
+
+	return (
+		<GlobalStore.Provider value={{ state, dispatch }}>
+			{children}
+		</GlobalStore.Provider>
+	);
 };
 
-export default function mainReducer(state, action) {
-  // Receiving previous state here
-  const {
-    review,
-    notification,
-    subscription,
-    movie,
-    login
-  } = state;
+Provider.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.object]),
+};
 
-  // Receiving current state here
-  const currentState = {
-    review: reviewsReducer.reducer(review, action),
-    notification: notificationsReducer.reducer(notification, action),
-    subscription: subscriptionsReducer.reducer(subscription, action),
-    movie: moviesReducer.reducer(movie, action),
-    login: loginReducer.reducer(login, action),
-  };
+Provider.defaultProps = {
+  children: {},
+};
 
-  // Middlewares
-  logger(action, state, currentState);
-
-  return currentState;
-}
+export { Provider as default, useGlobalStore };

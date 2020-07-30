@@ -13,6 +13,7 @@ export default {
     search: '/search/movie',
   },
   subscription: {
+    search: '/subscriptions/search',
     create: '/subscriptions/create',
   },
   review: {

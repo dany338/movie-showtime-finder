@@ -51,7 +51,7 @@ const subscription = (state = initialState, { type, payload }) => {
     case SUBSCRIPTION_CREATE_SUCCESS: {
       return {
         ...state,
-        data: [ ...state.data, payload.data ],
+        data: [ payload.data, ...state.data ],
         isLoading: false,
         error: ''
       };

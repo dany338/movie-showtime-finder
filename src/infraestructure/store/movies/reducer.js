@@ -21,6 +21,9 @@ import {
 
 const initialState = {
   data: [],
+  genres: [],
+  movie: null,
+  discoverGenres: [],
   totalPages: 0,
   totalResults: 0,
   currentPage: 0,
@@ -30,7 +33,7 @@ const initialState = {
 
 const movie = (state = initialState, { type, payload }) => {
   switch (type) {
-    case MOVIES_LIST_INIT: {
+    case MOVIES_NEWS_LIST_INIT: {
       return {
         ...state,
         error: '',
@@ -38,16 +41,153 @@ const movie = (state = initialState, { type, payload }) => {
       };
     }
 
-    case MOVIES_LIST_SUCCESS: {
+    case MOVIES_NEWS_LIST_SUCCESS: {
       return {
         ...state,
         data: payload.data,
+        totalPages: payload.totalPages,
+        totalResults: payload.totalResults,
+        currentPage: payload.page,
         isLoading: false,
         error: ''
       };
     }
 
-    case MOVIES_LIST_ERROR: {
+    case MOVIES_NEWS_LIST_ERROR: {
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+    }
+
+    case MOVIES_ALL_GENRES_INIT: {
+      return {
+        ...state,
+        error: '',
+        isLoading: true,
+      };
+    }
+
+    case MOVIES_ALL_GENRES_SUCCESS: {
+      return {
+        ...state,
+        genres: payload.data,
+        isLoading: false,
+        error: ''
+      };
+    }
+
+    case MOVIES_ALL_GENRES_ERROR: {
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+    }
+
+    case MOVIES_DISCOVER_GENRES_INIT: {
+      return {
+        ...state,
+        error: '',
+        isLoading: true,
+      };
+    }
+
+    case MOVIES_DISCOVER_GENRES_SUCCESS: {
+      return {
+        ...state,
+        data: payload.data,
+        totalPages: payload.totalPages,
+        totalResults: payload.totalResults,
+        currentPage: payload.page,
+        isLoading: false,
+        error: ''
+      };
+    }
+
+    case MOVIES_DISCOVER_GENRES_ERROR: {
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+    }
+
+    case MOVIE_BY_ID_INIT: {
+      return {
+        ...state,
+        error: '',
+        isLoading: true,
+      };
+    }
+
+    case MOVIE_BY_ID_SUCCESS: {
+      return {
+        ...state,
+        movie: payload.data,
+        isLoading: false,
+        error: ''
+      };
+    }
+
+    case MOVIE_BY_ID_ERROR: {
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+    }
+
+    case MOVIES_POPULAR_LIST_INIT: {
+      return {
+        ...state,
+        error: '',
+        isLoading: true,
+      };
+    }
+
+    case MOVIES_POPULAR_LIST_SUCCESS: {
+      return {
+        ...state,
+        data: payload.data,
+        totalPages: payload.totalPages,
+        totalResults: payload.totalResults,
+        currentPage: payload.page,
+        isLoading: false,
+        error: ''
+      };
+    }
+
+    case MOVIES_POPULAR_LIST_ERROR: {
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+    }
+
+    case MOVIES_SEARCH_LIST_INIT: {
+      return {
+        ...state,
+        error: '',
+        isLoading: true,
+      };
+    }
+
+    case MOVIES_SEARCH_LIST_SUCCESS: {
+      return {
+        ...state,
+        data: payload.data,
+        totalPages: payload.totalPages,
+        totalResults: payload.totalResults,
+        currentPage: payload.page,
+        isLoading: false,
+        error: ''
+      };
+    }
+
+    case MOVIES_SEARCH_LIST_ERROR: {
       return {
         ...state,
         isLoading: false,

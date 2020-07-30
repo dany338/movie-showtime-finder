@@ -8,16 +8,13 @@ import {
 } from './actions';
 import * as SubscriptionsServices from "../../services";
 
-export const subscriptionsRequest = (values, from, to) => {
+export const subscriptionsRequest = (token, uid) => {
   return async dispatch => {
     dispatch(subscriptionsListInit());
     try {
-      const data = await SubscriptionsServices.apiSubscriptions.search(values, from, to);
+      const data = await SubscriptionsServices.apiSubscriptions.search(token, uid);
       if(typeof data === 'object' && Array.isArray(data.data)) {
-        const countValues = Object.keys(values).length;
-        const total = ((data.metadata && countValues === 0) && data.metadata.total) || data.data.length;
-        const pageCount = Math.round(total / to) || Math.ceil(total / to);
-        dispatch(subscriptionsListSuccess(data.data, pageCount));
+        dispatch(subscriptionsListSuccess(data.data));
       } else if(typeof data === 'string') {
         dispatch(subscriptionsListError(data.toString()));
       }
@@ -28,11 +25,11 @@ export const subscriptionsRequest = (values, from, to) => {
   };
 };
 
-export const subscriptionCreateRequest = (form, token) => {
+export const subscriptionCreateRequest = (token, form) => {
   return async dispatch => {
     dispatch(subscriptionCreateInit());
     try {
-      const data = await SubscriptionsServices.apiSubscriptions.create(form, token);
+      const data = await SubscriptionsServices.apiSubscriptions.create(token, form);
       if(typeof data === 'object' && typeof data.data === 'object') {
         dispatch(subscriptionCreateSuccess(data.data));
         return { msg: data.message, err: false };
