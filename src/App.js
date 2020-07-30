@@ -14,13 +14,25 @@ const Login = lazy(() => import('./pages/Login'));
 const Movies = lazy(() => import('./pages/Movies'));
 
 const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap');
   @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-  * { box-sizing: border-box }
+  @font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url('https://fonts.gstatic.com/s/materialicons/v53/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2') format('woff2');
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
   .App {
     align-items: center;
     font-size: ${props => props.fontSize};
-    font-family: 'Roboto', sans-serif;
+    font-family: "Nunito", sans-serif;
     width: 100%;
     height: auto;
   }
@@ -38,6 +50,32 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: ${props => props.theme.backgroundBody} !important;
+    --color-3: #ffbc00;
+    --color-5: #e7e8ec;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  i {
+    cursor: pointer;
+  }
+
+  .material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
   }
 `;
 

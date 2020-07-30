@@ -1,4 +1,4 @@
-import {API_HOST, API_KEY, LANG} from '../config/const';
+import { API_HOST_BACKEND } from '../config/const';
 /* Defined Endpoints */
 import endpoints from '../config/endpoints';
 
@@ -22,50 +22,30 @@ const fetchParams = (method, data = '') => {
 };
 
 export const apiReviews = {
-  getNewsMovies: async (page = 1) => {
+  search: async (token, uid) => {
     try {
-      const response = await fetch( `${API_HOST}/movie/now_playing?api_key=${API_KEY}&language=${LANG}&page=${page}`);
+      const response = await fetch(`${API_HOST_BACKEND}${endpoints.review.search}?access-token=${token}&uid=${uid}`, fetchParams('GET'));
       if (!response.ok || response.status === 404 || response.status === 403 || response.status === 409 || response.status === 500 ) {
-        const data = await response.json();
-        if (typeof data.error !== 'undefined') {
-          return data.error;
-        }
-        if (typeof data.message !== 'undefined') {
-          return data.message;
-        }
         return response.statusText;
       }
       const data = await response.json();
-      if (typeof data.error !== 'undefined') {
-        return data.error;
-      }
       return data;
     } catch (error) {
       return error;
     }
   },
-  searchPeople: async (search, offset, size, aggregate) => {
+  create: async (token, form) => {
     try {
-      const response = await fetch(`${MOVIE_URL_API}${endpoints.torre.searchPeople}/_search/?offset=${offset}&size=${size}&aggregate=${aggregate}`, fetchParams('POST', { ...search }));
+      const response = await fetch(`${API_HOST_BACKEND}${endpoints.review.create}?access-token=${token}`, fetchParams('POST', { ...form }));
       if (!response.ok || response.status === 403 || response.status === 404 || response.status === 409 || response.status === 500 ) {
-        const data = await response.json();
-        if (typeof data.error !== 'undefined') {
-          return data.error;
-        }
-        if (typeof data.message !== 'undefined') {
-          return data.message;
-        }
         return response.statusText;
       }
       const data = await response.json();
-      if (typeof data.error !== 'undefined') {
-        return data.error;
-      }
       return data;
     } catch (error) {
-      return error;
+      return error.toString();
     }
-  }
+  },
 };
 
 export default apiReviews;

@@ -1,6 +1,7 @@
 export default {
   login: {
-    signIn: '',
+    signIn: '/users/login',
+    signUp: '/users/create',
   },
   movies: {
     news: '/movie/now_playing',
@@ -8,16 +9,17 @@ export default {
     allGenres: '/genre/movie/list',
     genreMovies: '/discover/movie',
     movieById: '/movie/',
+    popular: '/movie/popular',
+    search: '/search/movie',
   },
   subscription: {
-    create: '',
-    search: '',
+    create: '/subscriptions/create',
   },
   review: {
-    create: '',
-    search: '',
+    search: '/reviews/search',
+    create: '/reviews/create',
   },
   notification: {
-    search: '',
+    search: '/notifications/search',
   },
 };

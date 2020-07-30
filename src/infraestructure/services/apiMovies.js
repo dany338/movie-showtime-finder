@@ -1,4 +1,4 @@
-import {API_HOST, API_KEY, LANG} from '../config/const';
+import {API_HOST_MOVIES, API_KEY, LANG} from '../config/const';
 /* Defined Endpoints */
 import endpoints from '../config/endpoints';
 
@@ -24,7 +24,7 @@ const fetchParams = (method, data = '') => {
 export const apiMovies = {
   getNewsMovies: async (page = 1) => {
     try {
-      const response = await fetch( `${API_HOST}${endpoints.movies.news}?api_key=${API_KEY}&language=${LANG}&page=${page}`);
+      const response = await fetch( `${API_HOST_MOVIES}${endpoints.movies.news}?api_key=${API_KEY}&language=${LANG}&page=${page}`);
       if (!response.ok || response.status === 404 || response.status === 403 || response.status === 409 || response.status === 500 ) {
         return response.statusText;
       }
@@ -36,7 +36,7 @@ export const apiMovies = {
   },
   getGenreMovie: async idGenres => {
     try {
-      const response = await fetch( `${API_HOST}${endpoints.movies.genre}?api_key=${API_KEY}&language=${LANG}`);
+      const response = await fetch( `${API_HOST_MOVIES}${endpoints.movies.genre}?api_key=${API_KEY}&language=${LANG}`);
       if (!response.ok || response.status === 404 || response.status === 403 || response.status === 409 || response.status === 500 ) {
         return response.statusText;
       }
@@ -47,9 +47,9 @@ export const apiMovies = {
       return error;
     }
   },
-  getAllGenres: async (page = 1) => {
+  getAllGenres: async () => {
     try {
-      const response = await fetch( `${API_HOST}${endpoints.movies.genre}?api_key=${API_KEY}&language=${LANG}`);
+      const response = await fetch( `${API_HOST_MOVIES}${endpoints.movies.genre}?api_key=${API_KEY}&language=${LANG}`);
       if (!response.ok || response.status === 404 || response.status === 403 || response.status === 409 || response.status === 500 ) {
         return response.statusText;
       }
@@ -61,7 +61,7 @@ export const apiMovies = {
   },
   getGenreMovies: async idGenres => {
     try {
-      const response = await fetch( `${API_HOST}${endpoints.movies.genreMovies}?api_key=${API_KEY}&with_genres=${idGenres}&language=${LANG}`);
+      const response = await fetch( `${API_HOST_MOVIES}${endpoints.movies.genreMovies}?api_key=${API_KEY}&with_genres=${idGenres}&language=${LANG}`);
       if (!response.ok || response.status === 404 || response.status === 403 || response.status === 409 || response.status === 500 ) {
         return response.statusText;
       }
@@ -73,7 +73,7 @@ export const apiMovies = {
   },
   getMovieById: async idMovie => {
     try {
-      const response = await fetch( `${API_HOST}${endpoints.movies.movieById}${idMovie}?api_key=${API_KEY}&language=${LANG}`);
+      const response = await fetch( `${API_HOST_MOVIES}${endpoints.movies.movieById}${idMovie}?api_key=${API_KEY}&language=${LANG}`);
       if (!response.ok || response.status === 404 || response.status === 403 || response.status === 409 || response.status === 500 ) {
         return response.statusText;
       }
@@ -85,7 +85,31 @@ export const apiMovies = {
   },
   getVideoById: async idMovie => {
     try {
-      const response = await fetch( `${API_HOST}${endpoints.movies.movieById}${idMovie}?api_key=${API_KEY}&language=${LANG}`);
+      const response = await fetch( `${API_HOST_MOVIES}${endpoints.movies.movieById}${idMovie}?api_key=${API_KEY}&language=${LANG}`);
+      if (!response.ok || response.status === 404 || response.status === 403 || response.status === 409 || response.status === 500 ) {
+        return response.statusText;
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return error;
+    }
+  },
+  getPopularMovies: async (page = 1) => {
+    try {
+      const response = await fetch( `${API_HOST_MOVIES}${endpoints.movies.popular}?api_key=${API_KEY}&language=${LANG}&page=${page}`);
+      if (!response.ok || response.status === 404 || response.status === 403 || response.status === 409 || response.status === 500 ) {
+        return response.statusText;
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return error;
+    }
+  },
+  searchMovies: async search => {
+    try {
+      const response = await fetch( `${API_HOST_MOVIES}${endpoints.movies.search}?api_key=${API_KEY}&language=${LANG}&query=${search}`);
       if (!response.ok || response.status === 404 || response.status === 403 || response.status === 409 || response.status === 500 ) {
         return response.statusText;
       }

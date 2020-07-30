@@ -1,4 +1,4 @@
-import { MOVIE_URL_API, BACKEND_MOVIE_URL_API, API_KEY } from '../config/const';
+import { API_HOST_BACKEND } from '../config/const';
 /* Defined Endpoints */
 import endpoints from '../config/endpoints';
 
@@ -15,57 +15,37 @@ const fetchParams = (method, data = '') => {
   newApiHeaders.append("Accept", "application/json");
   return {
     method,
-    headers: newApiHeaders,
+    // headers: newApiHeaders,
     credentials: 'same-origin',
     ...body,
   };
 };
 
 export const apiLogin = {
-  getsBioInformation: async username => {
+  login: async form => {
     try {
-      const response = await fetch(`${MOVIE_URL_API}${endpoints.torre.getsBioInformation}/${username}`, fetchParams('GET'));
+      const response = await fetch(`${API_HOST_BACKEND}${endpoints.login.signIn}`, fetchParams('POST', { ...form }));
       if (!response.ok || response.status === 404 || response.status === 403 || response.status === 409 || response.status === 500 ) {
-        const data = await response.json();
-        if (typeof data.error !== 'undefined') {
-          return data.error;
-        }
-        if (typeof data.message !== 'undefined') {
-          return data.message;
-        }
         return response.statusText;
       }
       const data = await response.json();
-      if (typeof data.error !== 'undefined') {
-        return data.error;
-      }
       return data;
     } catch (error) {
-      return error;
+      return error.toString();
     }
   },
-  searchPeople: async (search, offset, size, aggregate) => {
+  create: async form => {
     try {
-      const response = await fetch(`${MOVIE_URL_API}${endpoints.torre.searchPeople}/_search/?offset=${offset}&size=${size}&aggregate=${aggregate}`, fetchParams('POST', { ...search }));
+      const response = await fetch(`${API_HOST_BACKEND}${endpoints.login.signUp}`, fetchParams('POST', { ...form }));
       if (!response.ok || response.status === 403 || response.status === 404 || response.status === 409 || response.status === 500 ) {
-        const data = await response.json();
-        if (typeof data.error !== 'undefined') {
-          return data.error;
-        }
-        if (typeof data.message !== 'undefined') {
-          return data.message;
-        }
         return response.statusText;
       }
       const data = await response.json();
-      if (typeof data.error !== 'undefined') {
-        return data.error;
-      }
       return data;
     } catch (error) {
-      return error;
+      return error.toString();
     }
-  }
+  },
 };
 
 export default apiLogin;
