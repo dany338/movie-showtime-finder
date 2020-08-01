@@ -2,10 +2,10 @@ import { API_HOST_BACKEND } from '../config/const';
 /* Defined Endpoints */
 import endpoints from '../config/endpoints';
 
-const apiHeaders = {
-  'Content-Type': 'application/json',
-  Accept: 'application/json',
-};
+// const apiHeaders = {
+//   'Content-Type': 'application/json',
+//   Accept: 'application/json',
+// };
 
 const fetchParams = (method, data = '') => {
   const body = data ? { body: JSON.stringify(data) } : {};

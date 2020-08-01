@@ -22,11 +22,11 @@ import {
 const initialState = {
   data: [],
   genres: [],
-  movie: null,
+  movieSelected: null,
   discoverGenres: [],
   totalPages: 0,
   totalResults: 0,
-  currentPage: 0,
+  currentPage: 1,
   isLoading: false,
   error: null,
 };
@@ -44,7 +44,7 @@ const movie = (state = initialState, { type, payload }) => {
     case MOVIES_NEWS_LIST_SUCCESS: {
       return {
         ...state,
-        data: payload.data,
+        data: Number(payload.page) === 1 ? payload.data : [ ...state.data, ...payload.data],
         totalPages: payload.totalPages,
         totalResults: payload.totalResults,
         currentPage: payload.page,
@@ -72,7 +72,7 @@ const movie = (state = initialState, { type, payload }) => {
     case MOVIES_ALL_GENRES_SUCCESS: {
       return {
         ...state,
-        genres: payload.data,
+        data: state.data.map((movie) => movie.id === payload.id ? { ...movie, genre_names: payload.data } : movie),
         isLoading: false,
         error: ''
       };
@@ -125,7 +125,7 @@ const movie = (state = initialState, { type, payload }) => {
     case MOVIE_BY_ID_SUCCESS: {
       return {
         ...state,
-        movie: payload.data,
+        movieSelected: payload.data,
         isLoading: false,
         error: ''
       };

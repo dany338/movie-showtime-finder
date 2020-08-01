@@ -1,7 +1,7 @@
 import {
   moviesNewsListInit,
   moviesNewsListSuccess,
-  moviesListError,
+  moviesNewsListError,
   moviesAllGenresInit,
   moviesAllGenresSuccess,
   moviesAllGenresError,
@@ -28,28 +28,31 @@ export const getMoviesNewsRequest = (page) => {
       if(typeof data === 'object' && Array.isArray(data.results)) {
         dispatch(moviesNewsListSuccess(data.results, data.total_pages, data.total_results, page));
       } else if(typeof data === 'string') {
-        dispatch(moviesListError('An error was generated please consult the administrator!'));
+        dispatch(moviesNewsListError('An error was generated please consult the administrator!'));
       }
     } catch (error) {
       console.error(error);
-      dispatch(moviesListError('An error was generated please consult the administrator!'));
+      dispatch(moviesNewsListError('An error was generated please consult the administrator!'));
     }
   };
 };
 
-export const getGenreMovieRequest = (idGenres) => {
+export const getGenreMovieRequest = (id, idGenres) => {
   return async dispatch => {
     dispatch(moviesAllGenresInit());
     try {
       const data = await MoviesServices.apiMovies.getGenreMovie(idGenres);
-      if(typeof data === 'object' && Array.isArray(data.results)) {
-        dispatch(moviesAllGenresSuccess(data.results));
-      } else if(typeof data === 'string') {
-        dispatch(moviesAllGenresError('An error was generated please consult the administrator!'));
+      console.log('data', data);
+      if(Array.isArray(data)) {
+        dispatch(moviesAllGenresSuccess(id, data));
+        return { msg: data, err: false };
       }
+      dispatch(moviesAllGenresError('An error was generated please consult the administrator!'));
+      return { msg: 'An error was generated please consult the administrator!', err: true };
     } catch (error) {
       console.error(error);
       dispatch(moviesAllGenresError('An error was generated please consult the administrator!'));
+      return { msg: 'An error was generated please consult the administrator!', err: true };
     }
   };
 };
@@ -93,14 +96,16 @@ export const getMovieByIdRequest = id => {
     dispatch(movieByIdInit());
     try {
       const data = await MoviesServices.apiMovies.getMovieById(id);
-      if(typeof data === 'object' && Array.isArray(data.results)) {
+      if(typeof data === 'object') {
         dispatch(movieByIdSuccess(data.results));
-      } else if(typeof data === 'string') {
-        dispatch(movieByIdError('An error was generated please consult the administrator!'));
+        return { msg: data, err: false };
       }
+      dispatch(movieByIdError('An error was generated please consult the administrator!'));
+      return { msg: 'An error was generated please consult the administrator!', err: true };
     } catch (error) {
       console.error(error);
       dispatch(movieByIdError('An error was generated please consult the administrator!'));
+      return { msg: 'An error was generated please consult the administrator!', err: true };
     }
   };
 };

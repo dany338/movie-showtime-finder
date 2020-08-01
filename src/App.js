@@ -2,9 +2,10 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import { BASE_FONT_SIZE } from './config/const';
+import { BASE_FONT_SIZE } from './infraestructure/config/const';
 import themes from './themes';
 import Header from './components/Header';
+import Sidebar from './components/Sidebar';
 import Nav from './components/Nav';
 import ErrorBoundary from './components/ErrorBoundary';
 /* Pages */
@@ -12,6 +13,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 // import Movies from './pages/Movies';
 const Login = lazy(() => import('./pages/Login'));
 const Movies = lazy(() => import('./pages/Movies'));
+const MovieDetail = lazy(() => import('./pages/MovieDetail'));
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap');
@@ -30,14 +32,17 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .App {
-    align-items: center;
     font-size: ${props => props.fontSize};
     font-family: "Nunito", sans-serif;
     width: 100%;
     height: auto;
   }
 
-  hr {
+  .app__page {
+    display: flex;
+  }
+
+  /* hr {
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     border-bottom: 0;
     border-left: 0;
@@ -46,10 +51,10 @@ const GlobalStyle = createGlobalStyle`
     width: calc(100% + 16px);
     z-index: 1;
     height: 10px;
-  }
+  } */
 
   body {
-    background-color: ${props => props.theme.backgroundBody} !important;
+    /* background-color: ${props => props.theme.backgroundBody} !important; */
     --color-3: #ffbc00;
     --color-5: #e7e8ec;
   }
@@ -95,12 +100,16 @@ const App = () => {
           <ErrorBoundary>
             <Suspense fallback={<div>Loading...</div>}>
               <Header />
-              <hr />
-              <Nav />
-              <Switch>
-                <Route exact path="/" component={Movies} />
-                <Route exact path="/login" component={Login} />
-              </Switch>
+              <div className="app__page">
+                <Sidebar />
+                <hr />
+                <Nav />
+                <Switch>
+                  <Route exact path="/" component={Movies} />
+                  <Route exact path="/movie/:id" component={MovieDetail} />
+                  <Route exact path="/login" component={Login} />
+                </Switch>
+              </div>
             </Suspense>
           </ErrorBoundary>
         </div>

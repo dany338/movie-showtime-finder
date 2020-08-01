@@ -23,7 +23,7 @@ export const moviesNewsListInit = () => ({ type: MOVIES_NEWS_LIST_INIT });
 export const moviesNewsListSuccess = (data, totalPages, totalResults, page) => ({ type: MOVIES_NEWS_LIST_SUCCESS, payload: { data, totalPages, totalResults, page } });
 export const moviesNewsListError = error => ({ type: MOVIES_NEWS_LIST_ERROR, payload: error });
 export const moviesAllGenresInit = () => ({ type: MOVIES_ALL_GENRES_INIT });
-export const moviesAllGenresSuccess = data => ({ type: MOVIES_ALL_GENRES_SUCCESS, payload: { data } });
+export const moviesAllGenresSuccess = (id, data) => ({ type: MOVIES_ALL_GENRES_SUCCESS, payload: { id, data } });
 export const moviesAllGenresError = error => ({ type: MOVIES_ALL_GENRES_ERROR, payload: error });
 export const moviesDiscoverGenresInit = () => ({ type: MOVIES_DISCOVER_GENRES_INIT });
 export const moviesDiscoverGenresSuccess = (data, totalPages, totalResults, page) => ({ type: MOVIES_DISCOVER_GENRES_SUCCESS, payload: { data, totalPages, totalResults, page } });

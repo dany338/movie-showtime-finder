@@ -5,3 +5,4 @@ export const BASE_PATH_IMG = 'https://image.tmdb.org/t/p';
 export const GENRE_DEFAULT_SELECTED = 28; // Action genre
 export const URL_YOUTUBE_VIDEO = 'https://www.youtube.com/embed/';
 export const API_HOST_BACKEND = 'https://www.historiaclinicaduo.com/movieshowtime/api/web/v1'; // /preinscripcions/create?access-token=
+export const BASE_FONT_SIZE = 12;

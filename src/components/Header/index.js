@@ -1,12 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 /* Style Components */
 import { Container } from './styled';
+/* Assets */
+import assets from '../../assets';
 
 const Header = () => {
+  const [ inputSearch, setInputSearch ] = useState('');
+
+
   return (
     <Container>
-      header...
+      <div className="header__left">
+        <i className="material-icons">menu</i>
+        <img
+          className="header__logo"
+          src={assets.logo}
+          alt="Movie Show Time Finder"
+        />
+      </div>
+      <div className="header__input">
+        <input onChange={(e) => setInputSearch(e.target.value)} placeholder="Search" type="text" value={inputSearch} name="search" />
+        <i className="material-icons header__inputButton">search</i>
+      </div>
+      <div className="header__icons">
+        <i className="material-icons header__icon">apps</i>
+        <i className="material-icons header__icon">notifications</i>
+        <img
+          className="header__avatar"
+          src={assets.defaultAvatar}
+          alt="Default Avatar"
+        />
+      </div>
     </Container>
   )
 };

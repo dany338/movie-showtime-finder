@@ -24,6 +24,7 @@
     "react-scripts": "3.4.1",
     "react-scroll": "^1.8.0",
     "react-scroll-wheel-handler": "^1.1.5",
+    "react-slick": "^0.27.1",
     "react-youtube": "^7.11.3",
     "rodal": "^1.8.1",
     "styled-components": "^5.1.1",
