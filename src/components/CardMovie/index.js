@@ -16,7 +16,7 @@ import { BASE_PATH_IMG } from '../../infraestructure/config/const';
 dayjs.locale('es');
 dayjs.extend(relativeTime);
 
-const CardMovie = ({ id, poster_path, backdrop_path, title, release_date, vote_count, vote_average, genre_ids }) => {
+const CardMovie = ({ id, poster_path, backdrop_path, title, release_date, vote_count, vote_average, genre_ids, onOpenModal }) => {
   const [ processing, setProcessing ] = useState(false);
   const [ genres, setGenres ] = useState([]);
   const { getGenreMovieRequest } = useMovies();
@@ -81,7 +81,7 @@ const CardMovie = ({ id, poster_path, backdrop_path, title, release_date, vote_c
               <p>
                 {vote_count} votes • {dayjs().from(dayjs(release_date)) } • Subscribers 0
               </p>
-              <div className="movie__subscriptions">
+              <div className="movie__subscriptions" onClick={(e) => onOpenModal(e, id, title)}>
                 <h4>Subscribe</h4>
               </div>
             </div>

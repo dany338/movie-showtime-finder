@@ -1,20 +1,48 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import firebase from 'firebase';
 /* Components */
 import CardMovie from '../../components/CardMovie';
+import ModalSubscribe from '../../components/ModalSubscribe';
 /* Style Components */
 import { Container } from './styled';
 /* Hooks */
 import { useMovies } from '../../infraestructure/hooks';
+import db from '../../firebase';
+
+const modalRoot = document.getElementById('modal-root');
+const customStyles = {
+  overflowY: 'auto',
+};
 
 const Movies = () => {
   const [ processing, setProcessing ] = useState(false);
+  const [ visible, setVisible ] = useState(false);
+  const [ movieSelected, setMovieSelected ] = useState(null);
   const {
     isLoading,
     data,
     currentPage,
     getMoviesNewsRequest
   } = useMovies();
+
+  const handleCloseModal = () => {
+    setVisible(false);
+  };
+
+  const handleOpenModal = (e, id, title) => {
+    e.preventDefault();
+    setVisible(true);
+    setMovieSelected({ id, title });
+    db.collection('movies').add({
+      movie_id: id,
+      movie_title: title,
+      uid: 1,
+      date: Date.now(),
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    e.stopPropagation();
+  };
 
   const handleLoadMore = async () => {
     await getMoviesNewsRequest(currentPage + 1);
@@ -44,7 +72,7 @@ const Movies = () => {
           </div>
         ) : (
           <>
-            {data.map((movie) => <CardMovie key={`movie-${movie.id}`} {...movie} /> )}
+            {data.map((movie) => <CardMovie key={`movie-${movie.id}`} {...movie} onOpenModal={handleOpenModal} /> )}
           </>
         )}
       </div>
@@ -54,6 +82,7 @@ const Movies = () => {
           <h4>LOAD MORE...</h4>
         </div>
       )}
+      <ModalSubscribe visible={visible} onClose={handleCloseModal} movie={movieSelected} />
     </Container>
   )
 };

@@ -1,4 +1,6 @@
-const firebaseConfig = {
+import firebase from 'firebase';
+
+const firebaseApp = firebase.initializeApp({
   apiKey: "AIzaSyDfVkYNuW_5MQqqd56BJMfWKWWh4nkHKjE",
   authDomain: "movieshowtimefinder-2346b.firebaseapp.com",
   databaseURL: "https://movieshowtimefinder-2346b.firebaseio.com",
@@ -6,4 +8,8 @@ const firebaseConfig = {
   storageBucket: "movieshowtimefinder-2346b.appspot.com",
   messagingSenderId: "236955615103",
   appId: "1:236955615103:web:24f5a578e7c5970464644a"
-};
+});
+
+const db = firebaseApp.firestore();
+// const auth = firebase.auth();
+export default db;

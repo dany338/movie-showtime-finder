@@ -82,6 +82,12 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
   }
+
+  .modal-rodal-container {
+    z-index: 9999 !important;
+    font-size: ${props => props.fontSize};
+    font-family: "Nunito", sans-serif;
+  }
 `;
 
 const themeContext = {
