@@ -13,13 +13,15 @@ const useLogin = () => {
   // List of Dispatchers
 	const {
     loginRequest,
-    logoutRequest
+    logoutRequest,
+    userFieldChangeRequest
   } = dispatchers;
 
   // Bind Actions
 	const loginActions = bindActions({
     loginRequest,
-    logoutRequest
+    logoutRequest,
+    userFieldChangeRequest
   }, dispatch);
 
   return { ...login, ...loginActions };

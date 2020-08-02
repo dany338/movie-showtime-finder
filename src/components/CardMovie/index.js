@@ -69,7 +69,7 @@ const CardMovie = ({ id, poster_path, backdrop_path, title, release_date, vote_c
           <div className="movie__info">
             <img
               className="movie__avatar"
-              src={`${BASE_PATH_IMG}/w500${backdrop_path}`}
+              src={backdrop_path ? (`${BASE_PATH_IMG}/w500${backdrop_path}`) : ('https://via.placeholder.com/150.png')}
               alt="Movie Show Time Finder"
             />
             <div className="video__text">
@@ -95,12 +95,16 @@ const CardMovie = ({ id, poster_path, backdrop_path, title, release_date, vote_c
 CardMovie.propTypes = {
   id: PropTypes.number.isRequired,
   poster_path: PropTypes.string.isRequired,
-  backdrop_path: PropTypes.string.isRequired,
+  backdrop_path: PropTypes.string,
   title: PropTypes.string.isRequired,
   release_date: PropTypes.string.isRequired,
   vote_count: PropTypes.number.isRequired,
   vote_average: PropTypes.number.isRequired,
   genre_ids: PropTypes.arrayOf(PropTypes.number).isRequired,
+};
+
+CardMovie.defaultProps = {
+  backdrop_path: 'https://via.placeholder.com/150.png',
 };
 
 export default withRouter(CardMovie);

@@ -2,7 +2,8 @@ import {
   loginInit,
   loginSuccess,
   loginFailed,
-  logoutInit
+  logoutInit,
+  userFormFieldChangeInit
 } from './actions';
 import * as LoginServices from "../../services";
 
@@ -32,4 +33,14 @@ export const logoutRequest = () => {
 			dispatch(loginFailed('An error was generated please consult the administrator!'));
 		}
 	};
+};
+
+export const userFieldChangeRequest = (name, value) => {
+  return async dispatch => {
+    try {
+      dispatch(userFormFieldChangeInit(name, value));
+    } catch (error) {
+      console.error(error.toString());
+    }
+  };
 };

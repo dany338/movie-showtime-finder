@@ -24,6 +24,8 @@ export const Container = styled.div`
     border: 1px solid lightgray;
   }
 
+
+
   .header__icons {
     display: flex;
     align-items: center;
@@ -32,6 +34,10 @@ export const Container = styled.div`
   .header__input > input {
     flex: 1;
     border: none;
+  }
+
+  .header__input > input:focus {
+    outline: none;
   }
 
   .header__icon {

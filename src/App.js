@@ -88,6 +88,11 @@ const GlobalStyle = createGlobalStyle`
     font-size: ${props => props.fontSize};
     font-family: "Nunito", sans-serif;
   }
+
+  .swal2-container {
+    z-index: 10000 !important;
+    font-family: "Nunito", sans-serif;
+  }
 `;
 
 const themeContext = {

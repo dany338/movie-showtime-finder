@@ -3,11 +3,22 @@ import {
   LOGIN_INIT,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
-  LOGOUT_INIT
+  LOGOUT_INIT,
+  USER_FORM_FIELD_CHANGE
 } from './types';
 const isCookie = (typeof Cookies.get('movieshowtime') !== 'undefined');
 
+const objUser = {
+  id: null,
+  fullname: '',
+  email: '',
+  location: '',
+  mobile: '',
+  age: '',
+};
+
 const initialState = {
+  user: isCookie ? JSON.parse(Cookies.get('movieshowtime')).user : objUser,
   userLogin: isCookie ? JSON.parse(Cookies.get('movieshowtime')).userLogin : null,
   token: isCookie ? JSON.parse(Cookies.get('movieshowtime')).token : null,
 	isLoading: false,
@@ -60,6 +71,16 @@ const login = (state = initialState, { type, payload }) => {
         isLoggedIn: false,
         userLogin: null,
         token: null,
+      };
+    }
+
+    case USER_FORM_FIELD_CHANGE: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          [payload.name]: payload.value
+        },
       };
     }
 
