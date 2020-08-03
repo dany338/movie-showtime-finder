@@ -18,10 +18,12 @@ const customStyles = {
 };
 
 const ModalSubscribe = ({ visible, onClose, movie }) => {
-  const [ existing, setExisting ] = useState(false);
-  const [ action, setAction ] = useState('Register');
+  const { user, userFieldChangeRequest, userCreateRequest, loginRequest, token } = useLogin();
+  const defaultAction = token ? 'Subscribe' : 'Register';
+  const defaultExisting = token ? true : false;
+  const [ existing, setExisting ] = useState(defaultExisting);
+  const [ action, setAction ] = useState(defaultAction);
   const { isLoggedIn } = useMovies();
-  const { user, userFieldChangeRequest, userCreateRequest, loginRequest } = useLogin();
 
   const handleChangeRadio = e => {
     const { value } = e.currentTarget;
@@ -38,12 +40,13 @@ const ModalSubscribe = ({ visible, onClose, movie }) => {
   const handleAction = async e => {
     e.preventDefault();
     if(user.email !== '' && isValidEmail(user.email)) {
-      if(action === 'Login') {
+      if(action === 'Login' || action === 'Subscribe') {
         const formData = {
-          login: user.email
+          login: user.email,
+          ...movie
         };
         await loginRequest(formData);
-      } else if(user.location !== '' && user.mobile !== '' && user.age !== '' && user.fullname !== '' ){
+      } else if(user.location !== '' && user.mobile !== '' && user.age !== '' && user.fullname !== '' ) {
         const formData = {
           ...user,
           ...movie
