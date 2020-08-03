@@ -30,10 +30,10 @@ const Movies = () => {
     setVisible(false);
   };
 
-  const handleOpenModal = (e, id, title) => {
+  const handleOpenModal = (e, id, title, image) => {
     e.preventDefault();
     setVisible(true);
-    setMovieSelected({ id, title });
+    setMovieSelected({ moviedb_id: id, name: title, moviedb_image: image });
     db.collection('movies').add({
       movie_id: id,
       movie_title: title,

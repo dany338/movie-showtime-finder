@@ -4,10 +4,12 @@ import { withRouter } from 'react-router-dom';
 import { Container } from './styled';
 /* Assets */
 import assets from '../../assets';
+/* Hooks */
+import { useLogin } from '../../infraestructure/hooks';
 
 const Header = () => {
   const [ inputSearch, setInputSearch ] = useState('');
-
+  const { username } = useLogin();
 
   return (
     <Container>
@@ -26,6 +28,7 @@ const Header = () => {
       <div className="header__icons">
         <i className="material-icons header__icon">apps</i>
         <i className="material-icons header__icon">notifications</i>
+        {username && (<span className="header__text">{username}</span>)}
         <img
           className="header__avatar"
           src={assets.defaultAvatar}

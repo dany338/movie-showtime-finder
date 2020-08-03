@@ -21,7 +21,7 @@ const ModalSubscribe = ({ visible, onClose, movie }) => {
   const [ existing, setExisting ] = useState(false);
   const [ action, setAction ] = useState('Register');
   const { isLoggedIn } = useMovies();
-  const { user, userFieldChangeRequest } = useLogin();
+  const { user, userFieldChangeRequest, userCreateRequest, loginRequest } = useLogin();
 
   const handleChangeRadio = e => {
     const { value } = e.currentTarget;
@@ -35,13 +35,20 @@ const ModalSubscribe = ({ visible, onClose, movie }) => {
     }
   };
 
-  const handleAction = e => {
+  const handleAction = async e => {
     e.preventDefault();
     if(user.email !== '' && isValidEmail(user.email)) {
       if(action === 'Login') {
-        console.log(action);
+        const formData = {
+          login: user.email
+        };
+        await loginRequest(formData);
       } else if(user.location !== '' && user.mobile !== '' && user.age !== '' && user.fullname !== '' ){
-        console.log(action);
+        const formData = {
+          ...user,
+          ...movie
+        };
+        await userCreateRequest(formData);
       } else {
         Swal.fire({
           title: 'OBLIGATORY FIELD!',
@@ -79,7 +86,7 @@ const ModalSubscribe = ({ visible, onClose, movie }) => {
       <Container>
         {movie && (
           <div className="modal__title">
-            <h4>{movie.title} • {movie.id}</h4>
+            <h4>{movie.name} • {movie.moviedb_id}</h4>
           </div>
         )}
         <div className="modal__content">

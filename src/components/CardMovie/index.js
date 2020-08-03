@@ -81,7 +81,7 @@ const CardMovie = ({ id, poster_path, backdrop_path, title, release_date, vote_c
               <p>
                 {vote_count} votes • {dayjs().from(dayjs(release_date)) } • Subscribers 0
               </p>
-              <div className="movie__subscriptions" onClick={(e) => onOpenModal(e, id, title)}>
+              <div className="movie__subscriptions" onClick={(e) => onOpenModal(e, id, title, `${BASE_PATH_IMG}/w500${backdrop_path}`)}>
                 <h4>Subscribe</h4>
               </div>
             </div>

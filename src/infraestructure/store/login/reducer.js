@@ -4,7 +4,10 @@ import {
   LOGIN_SUCCESS,
   LOGIN_ERROR,
   LOGOUT_INIT,
-  USER_FORM_FIELD_CHANGE
+  USER_FORM_FIELD_CHANGE,
+  USER_CREATE_INIT,
+  USER_CREATE_SUCCESS,
+  USER_CREATE_ERROR
 } from './types';
 const isCookie = (typeof Cookies.get('movieshowtime') !== 'undefined');
 
@@ -19,7 +22,7 @@ const objUser = {
 
 const initialState = {
   user: isCookie ? JSON.parse(Cookies.get('movieshowtime')).user : objUser,
-  userLogin: isCookie ? JSON.parse(Cookies.get('movieshowtime')).userLogin : null,
+  username: isCookie ? JSON.parse(Cookies.get('movieshowtime')).username : null,
   token: isCookie ? JSON.parse(Cookies.get('movieshowtime')).token : null,
 	isLoading: false,
 	isLoggedIn: isCookie,
@@ -45,7 +48,7 @@ const login = (state = initialState, { type, payload }) => {
 
       return {
         ...state,
-        userLogin: username,
+        username,
         token,
         isLoading: false,
         isLoggedIn: true,
@@ -81,6 +84,47 @@ const login = (state = initialState, { type, payload }) => {
           ...state.user,
           [payload.name]: payload.value
         },
+      };
+    }
+
+    case USER_CREATE_INIT: {
+      return {
+        ...state,
+        error: '',
+        isLoading: true,
+      };
+    }
+
+    case USER_CREATE_SUCCESS: {
+      const { id, fullname, email, location, mobile, age, username, token } = payload.data;
+      const newUser = {
+        id,
+        fullname,
+        email,
+        location,
+        mobile,
+        age,
+      };
+      Cookies.set('movieshowtime', { username, token, user: newUser }, {
+        expires: 1 // Expire one day
+      });
+
+      return {
+        ...state,
+        user: newUser,
+        username,
+        token,
+        isLoading: false,
+        isLoggedIn: true,
+      };
+    }
+
+    case USER_CREATE_ERROR: {
+      return {
+        ...state,
+        isLoading: false,
+        isLoggedIn: false,
+        error: payload,
       };
     }
 

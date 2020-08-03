@@ -58,6 +58,11 @@ export const Container = styled.div`
     vertical-align: middle;
     border-radius: 50%;
   }
+
+  .header__text {
+    font-size: 14px;
+    color: gray;
+  }
 `;
 
 export default Container;
