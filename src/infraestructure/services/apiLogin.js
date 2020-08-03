@@ -11,11 +11,11 @@ const fetchParams = (method, data = '') => {
   const body = data ? { body: JSON.stringify(data) } : {};
 
   const newApiHeaders = new Headers();
-  // newApiHeaders.append("Content-Type", "application/json");
-  // newApiHeaders.append("Accept", "application/json");
+  newApiHeaders.append("Content-Type", "application/json");
+  newApiHeaders.append("Accept", "application/json");
   return {
     method,
-    // headers: newApiHeaders,
+    headers: newApiHeaders,
     credentials: 'same-origin',
     ...body,
   };

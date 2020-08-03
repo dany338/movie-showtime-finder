@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 /* Style Components */
 import { Container } from './styled';
 /* Assets */
@@ -14,7 +14,7 @@ const Header = () => {
   return (
     <Container>
       <div className="header__left">
-        <i className="material-icons">menu</i>
+        <Link to="/"><i className="material-icons">menu</i></Link>
         <img
           className="header__logo"
           src={assets.logo}

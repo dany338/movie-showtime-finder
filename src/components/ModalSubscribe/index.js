@@ -39,36 +39,74 @@ const ModalSubscribe = ({ visible, onClose, movie }) => {
 
   const handleAction = async e => {
     e.preventDefault();
-    if(user.email !== '' && isValidEmail(user.email)) {
-      if(action === 'Login' || action === 'Subscribe') {
-        const formData = {
-          login: user.email,
-          ...movie
-        };
-        await loginRequest(formData);
-      } else if(user.location !== '' && user.mobile !== '' && user.age !== '' && user.fullname !== '' ) {
-        const formData = {
-          ...user,
-          ...movie
-        };
-        await userCreateRequest(formData);
+    if(action !== 'processing...') {
+      if(user.email !== '' && isValidEmail(user.email)) {
+        if(action === 'Login' || action === 'Subscribe') {
+          const formData = {
+            login: user.email,
+            ...movie
+          };
+          setAction('processing...');
+          const { msg, err } = await loginRequest(formData);
+          if(!err) {
+            Swal.fire({
+              title: 'Subscribed!',
+              icon: 'success',
+              text: 'Your subscription has been saved',
+              confirmButtonText: 'OK'
+            }).then(async (result) => {
+              onClose();
+            });
+          } else {
+            Swal.fire({
+              title: 'Oops...',
+              icon: 'error',
+              text: `Something went wrong! ${msg}`,
+              confirmButtonText: 'OK'
+            })
+          }
+        } else if(user.location !== '' && user.mobile !== '' && user.age !== '' && user.fullname !== '' ) {
+          const formData = {
+            ...user,
+            ...movie
+          };
+          setAction('processing...');
+          const { msg, err } = await userCreateRequest(formData);
+          if(!err) {
+            Swal.fire({
+              title: 'Subscribed!',
+              icon: 'success',
+              text: 'Your subscription has been saved',
+              confirmButtonText: 'OK'
+            }).then(async (result) => {
+              onClose();
+            });
+          } else {
+            Swal.fire({
+              title: 'Oops...',
+              icon: 'error',
+              text: `Something went wrong! ${msg}`,
+              confirmButtonText: 'OK'
+            })
+          }
+        } else {
+          Swal.fire({
+            title: 'OBLIGATORY FIELD!',
+            icon: 'info',
+            text: 'you must enter a valid values!',
+            confirmButtonText: 'OK'
+          })
+        }
       } else {
         Swal.fire({
           title: 'OBLIGATORY FIELD!',
           icon: 'info',
-          text: 'you must enter a valid values!',
+          text: 'you must enter a valid value for the email!',
           confirmButtonText: 'OK'
         })
       }
-    } else {
-      Swal.fire({
-        title: 'OBLIGATORY FIELD!',
-        icon: 'info',
-        text: 'you must enter a valid value for the email!',
-        confirmButtonText: 'OK'
-      })
     }
-    e.stopPropagation();
+    // e.stopPropagation();
   };
 
   const handleChangeField = e => {

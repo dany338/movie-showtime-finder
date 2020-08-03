@@ -40,9 +40,16 @@ const login = (state = initialState, { type, payload }) => {
     }
 
     case LOGIN_SUCCESS: {
-      const { username, token } = payload.data;
-
-      Cookies.set('movieshowtime', { username, token }, {
+      const { id, fullname, email, location, mobile, age, username, token } = payload.data;
+      const newUser = {
+        id,
+        fullname,
+        email,
+        location,
+        mobile,
+        age,
+      };
+      Cookies.set('movieshowtime', { username, token, user: newUser }, {
         expires: 1 // Expire one day
       });
 

@@ -15,14 +15,16 @@ export const loginRequest = formData => {
 		dispatch(loginInit());
 		try {
       const data = await LoginServices.apiLogin.login(formData);
-      if(typeof data === 'object' && Array.isArray(data.data)) {
+      if(typeof data === 'object' && typeof data.data === 'object') {
         dispatch(loginSuccess(data.data));
-      } else {
-        dispatch(loginFailed(data.toString()));
+        return { msg: data.data, err: false };
       }
+      dispatch(loginFailed('An error was generated please consult the administrator!'));
+      return { msg: 'An error was generated please consult the administrator!', err: true };
 		} catch (error) {
       console.error(error);
-			dispatch(loginFailed('An error was generated when authenticating please consult the administrator!'));
+			dispatch(loginFailed('An error was generated please consult the administrator!'));
+      return { msg: 'An error was generated please consult the administrator!', err: true };
 		}
 	};
 };
@@ -53,14 +55,16 @@ export const userCreateRequest = formData => {
 		dispatch(userCreateInit());
 		try {
       const data = await LoginServices.apiLogin.create(formData);
-      if(typeof data === 'object' && Array.isArray(data.data)) {
-        dispatch(userCreateSuccess(data.data));
-      } else {
-        dispatch(userCreateFailed(data.toString()));
+      if(typeof data === 'object') {
+        dispatch(userCreateSuccess(data));
+        return { msg: data.data, err: false };
       }
+      dispatch(userCreateFailed('An error was generated please consult the administrator!'));
+      return { msg: 'An error was generated please consult the administrator!', err: true };
 		} catch (error) {
       console.error(error);
-			dispatch(userCreateFailed('An error was generated when authenticating please consult the administrator!'));
+      dispatch(userCreateFailed('An error was generated please consult the administrator!'));
+      return { msg: 'An error was generated please consult the administrator!', err: true };
 		}
 	};
 };

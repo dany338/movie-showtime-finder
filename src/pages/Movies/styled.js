@@ -7,6 +7,10 @@ export const Container = styled.div`
   padding: 40px 20px;
   padding-bottom: 0;
 
+  @media only screen and (max-width: 601px) {
+    flex: 1;
+  }
+
   h2 {
     margin-left: 5px;
     margin-bottom: 20px;
